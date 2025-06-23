@@ -1,0 +1,5 @@
+--- Errores del Punto 2 (Vector) ---
+5 / (3 - 3) = Error: División por cero.
+1 / (siguiente - 3) = Error: No hay un 'siguiente número' para el último elemento.
+
+--- Errores del Punto 3 (Vector y Archivo) ---
