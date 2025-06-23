@@ -1,16 +1,32 @@
 package ar.edu.et32;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import ar.edu.et32.configuration.Configuracion;
+import ar.edu.et32.manejadorDeDatos.ManejadorDeDatos;
+import ar.edu.et32.procesadorDeDatos.ProcesadorDeDatos;
 
-        for (int i = 0; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+public class Main {
+
+    public static void main(String[] args) {
+        System.out.println("--- Inicio del Trabajo Práctico N°1: Flujo de Datos (Versión Modular) ---");
+
+        ManejadorDeDatos manejador = new ManejadorDeDatos();
+        ProcesadorDeDatos procesador = new ProcesadorDeDatos();
+
+        System.out.println("\n[PUNTO 1] Iniciando la carga de datos...");
+        int[] vectorNumeros = manejador.ingresarDatosParaVector();
+        manejador.ingresarDatosParaArchivo();
+
+        System.out.println("\n[PUNTO 1] Carga de datos finalizada con éxito.");
+        System.out.println("\n[PUNTO 2] Procesando datos del vector...");
+        procesador.procesarDatosPunto2(vectorNumeros);
+
+        // Esta línea ahora funcionará porque importamos Configuracion
+        System.out.println("[PUNTO 2] Procesamiento finalizado. Revisa '" + Configuracion.ARCHIVO_RESULTADOS + "' y '" + Configuracion.ARCHIVO_ERRORES + "'.");
+
+        System.out.println("\n[PUNTO 3] Procesando datos del vector y del archivo...");
+        procesador.procesarDatosPunto3(vectorNumeros);
+        System.out.println("[PUNTO 3] Procesamiento finalizado. Los archivos han sido actualizados.");
+
+        System.out.println("\n--- Programa finalizado ;)) ---");
     }
+}
