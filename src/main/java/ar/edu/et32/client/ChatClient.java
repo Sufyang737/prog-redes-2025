@@ -1,0 +1,53 @@
+package ar.edu.et32.client;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+public class ChatClient {
+
+    public static void main(String[] args) {
+        BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            System.out.print("Ingrese IP: ");
+            String host = teclado.readLine();
+            System.out.print("Ingrese puerto: ");
+            int puerto = Integer.parseInt(teclado.readLine());
+
+            Socket socket = new Socket(host, puerto);
+            BufferedReader delServidor = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter alServidor = new PrintWriter(socket.getOutputStream(), true);
+
+            Thread escucha = new Thread(() -> {
+                try {
+                    String mensaje;
+                    while ((mensaje = delServidor.readLine()) != null) {
+                        System.out.println("[SERVIDOR] " + mensaje);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Fin de la conexión: " + e.getMessage());
+                }
+            });
+            escucha.setDaemon(true);
+            escucha.start();
+
+            System.out.println("Comandos: /hi para bienvenida, /logout para salir, ID para el código.");
+            while (true) {
+                String linea = teclado.readLine();
+                if (linea == null) {
+                    break;
+                }
+                alServidor.println(linea);
+                if ("/logout".equals(linea.trim())) {
+                    break;
+                }
+            }
+
+            socket.close();
+        } catch (Exception e) {
+            System.out.println("No se pudo conectar: " + e.getMessage());
+        }
+    }
+}
