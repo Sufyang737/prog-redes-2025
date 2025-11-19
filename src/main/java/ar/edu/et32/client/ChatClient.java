@@ -8,14 +8,25 @@ import java.net.Socket;
 
 public class ChatClient {
 
+    static final String HOST_DEFAULT = "127.0.0.1";
+    static final String HOST_PROFESOR = "130.10.1.54";
+    static final int PUERTO_DEFAULT = 5000;
+
     public static void main(String[] args) {
         BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
         try {
-            System.out.print("Ingrese IP: ");
-            String host = teclado.readLine();
-            System.out.print("Ingrese puerto: ");
-            int puerto = Integer.parseInt(teclado.readLine());
+            System.out.print("Ingrese IP (enter para 127.0.0.1, escribir profe para 130.10.1.54): ");
+            String hostIngresado = teclado.readLine();
+            if (hostIngresado == null || hostIngresado.isBlank()) {
+                hostIngresado = HOST_DEFAULT;
+            } else if ("profe".equalsIgnoreCase(hostIngresado.trim())) {
+                hostIngresado = HOST_PROFESOR;
+            }
+            System.out.print("Ingrese puerto (enter para 5000): ");
+            String puertoIngresado = teclado.readLine();
+            int puerto = puertoIngresado == null || puertoIngresado.isBlank() ? PUERTO_DEFAULT : Integer.parseInt(puertoIngresado.trim());
 
+            String host = hostIngresado;
             Socket socket = new Socket(host, puerto);
             BufferedReader delServidor = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter alServidor = new PrintWriter(socket.getOutputStream(), true);
@@ -33,6 +44,7 @@ public class ChatClient {
             escucha.setDaemon(true);
             escucha.start();
 
+            System.out.println("Conectado a " + host + ":" + puerto + ". Use /hi, /logout o ID.");
             System.out.println("Comandos: /hi para bienvenida, /logout para salir, ID para el código.");
             while (true) {
                 String linea = teclado.readLine();

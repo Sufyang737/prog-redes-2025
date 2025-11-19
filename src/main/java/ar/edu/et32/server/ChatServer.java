@@ -15,14 +15,7 @@ public class ChatServer {
     static final Vector<ClientWorker> CLIENTES = new Vector<>();
 
     public static void main(String[] args) {
-        int puerto = 5000;
-        if (args.length > 0) {
-            try {
-                puerto = Integer.parseInt(args[0]);
-            } catch (NumberFormatException ignored) {
-            }
-        }
-
+        int puerto = 5000; // puerto fijo como en los ejemplos
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(puerto);
