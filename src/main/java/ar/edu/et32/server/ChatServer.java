@@ -1,3 +1,5 @@
+//C53D2AB2
+//BACD
 package ar.edu.et32.server;
 
 import java.io.BufferedReader;
@@ -15,7 +17,7 @@ public class ChatServer {
     static final Vector<ClientWorker> CLIENTES = new Vector<>();
 
     public static void main(String[] args) {
-        int puerto = 5000; // puerto fijo como en los ejemplos
+        int puerto = 5000; 
         ServerSocket serverSocket = null;
         try {
             serverSocket = new ServerSocket(puerto);
